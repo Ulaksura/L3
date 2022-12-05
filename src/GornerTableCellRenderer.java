@@ -44,7 +44,7 @@ public class GornerTableCellRenderer implements TableCellRenderer {
 // Преобразовать double в строку с помощью форматировщика
         String formattedDouble = formatter.format(value);
         label.setText(formattedDouble);
-        if (col==1 && needle!=null && needle.equals(formattedDouble)) {
+        if (col!=0 && needle!=null && needle.equals(formattedDouble)) {
             panel.setBackground(Color.RED);
         } else {
             if((row%2 == 0 && col%2 ==0) || (row%2 != 0 && col%2 !=0))
