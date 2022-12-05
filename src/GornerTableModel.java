@@ -23,7 +23,7 @@ public class GornerTableModel extends AbstractTableModel {
     }
     public int getColumnCount() {
 // В данной модели два столбца
-        return 2;
+        return 4;  // gjvtyzkf c 2 yf 4
     }
     public int getRowCount() {
 // Вычислить количество точек между началом и концом отрезка
@@ -50,11 +50,13 @@ public class GornerTableModel extends AbstractTableModel {
     public String getColumnName(int col) {
         switch (col) {
             case 0:
-// Название 1-го столбца
                 return "Значение X";
-            default:
-// Название 2-го столбца
+            case 1:
                 return "Значение многочлена";
+            case 2:
+              return "Столбец 3";
+            default:
+                return "Столбец 4";
         }
     }
     public Class<?> getColumnClass(int col) {
