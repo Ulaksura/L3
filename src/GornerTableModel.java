@@ -33,19 +33,36 @@ public class GornerTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
 // Вычислить значение X как НАЧАЛО_ОТРЕЗКА + ШАГ*НОМЕР_СТРОКИ
         double x = from + step*row;
+
+
+        
+        Double res= coefficients[coefficients.length - 1] ;
+        for(int i=coefficients.length-2;i>=0;i--)
+        {
+            res = res*x + coefficients[i];
+        }
+        Double resl= coefficients[0] ;
+        for(int i=1;i<coefficients.length;i++)
+        {
+            resl = resl*x + coefficients[i];
+        }
+
+
+
         if (col==0) {
 // Если запрашивается значение 1-го столбца, то это X
             return x;
         }
-        if (col==1){
-           Double res= coefficients[coefficients.length - 1] ;
-            for(int i=coefficients.length-2;i>=0;i--)
-            {
-                res = res*x + coefficients[i];
-            }
+        if (col==1) {
             return res;
         }
         if (col==2)
+        {
+            return resl;
+        }
+        else {
+            return res - resl;
+        }
     }
     public String getColumnName(int col) {
         switch (col) {
