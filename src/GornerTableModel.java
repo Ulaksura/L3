@@ -36,16 +36,16 @@ public class GornerTableModel extends AbstractTableModel {
         if (col==0) {
 // Если запрашивается значение 1-го столбца, то это X
             return x;
-        } else {
-// Если запрашивается значение 2-го столбца, то это значение
-// многочлена
-            Double result = 0.0;
-// Вычисление значения в точке по схеме Горнера.
-// Вспомнить 1-ый курс и реализовать
-// ...
-
-            return result;
         }
+        if (col==1){
+           Double res= coefficients[coefficients.length - 1] ;
+            for(int i=coefficients.length-2;i>=0;i--)
+            {
+                res = res*x + coefficients[i];
+            }
+            return res;
+        }
+        if (col==2)
     }
     public String getColumnName(int col) {
         switch (col) {

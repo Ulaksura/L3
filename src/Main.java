@@ -210,12 +210,9 @@ public void actionPerformed(ActionEvent event) {
 public void actionPerformed(ActionEvent ev) {
         try {
 // Считать значения начала и конца отрезка, шага
-        Double from =
-        Double.parseDouble(textFieldFrom.getText());
-        Double to =
-        Double.parseDouble(textFieldTo.getText());
-        Double step =
-        Double.parseDouble(textFieldStep.getText());
+        Double from = Double.parseDouble(textFieldFrom.getText());
+        Double to   = Double.parseDouble(textFieldTo.getText());
+        Double step = Double.parseDouble(textFieldStep.getText());
 // На основе считанных данных создать новый экземпляр модели таблицы
         data = new GornerTableModel(from, to, step,
         Main.this.coefficients);
