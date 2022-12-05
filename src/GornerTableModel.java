@@ -35,7 +35,7 @@ public class GornerTableModel extends AbstractTableModel {
         double x = from + step*row;
 
 
-        
+
         Double res= coefficients[coefficients.length - 1] ;
         for(int i=coefficients.length-2;i>=0;i--)
         {
@@ -50,7 +50,6 @@ public class GornerTableModel extends AbstractTableModel {
 
 
         if (col==0) {
-// Если запрашивается значение 1-го столбца, то это X
             return x;
         }
         if (col==1) {
