@@ -27,6 +27,7 @@ public class Main extends JFrame {
     private JMenuItem saveToTextMenuItem;
     private JMenuItem saveToGraphicsMenuItem;
     private JMenuItem searchValueMenuItem;
+    private JMenuItem searchDiapValueMenuItem;
     // Поля ввода для считывания значений переменных
     private JTextField textFieldFrom;
     private JTextField textFieldTo;
@@ -46,8 +47,8 @@ public class Main extends JFrame {
         setSize(WIDTH, HEIGHT);
         Toolkit kit = Toolkit.getDefaultToolkit();
 // Отцентрировать окно приложения на экране
-        setLocation((kit.getScreenSize().width - WIDTH)/2,
-                (kit.getScreenSize().height - HEIGHT)/2);
+        setLocation((kit.getScreenSize().width - WIDTH) / 2,
+                (kit.getScreenSize().height - HEIGHT) / 2);
 // Создать меню
         JMenuBar menuBar = new JMenuBar();
 // Установить меню в качестве главного меню приложения
@@ -56,15 +57,15 @@ public class Main extends JFrame {
 
         JMenu SMenu = new JMenu("Справка");
         menuBar.add(SMenu);
-        JButton InfoMenu = new  JButton("О программе"); // добавляем в менб кнопку
+        JButton InfoMenu = new JButton("О программе"); // добавляем в менб кнопку
         SMenu.add(InfoMenu);
-        ImageIcon img= new ImageIcon("кот.png");
+        ImageIcon img = new ImageIcon("кот.png");
         InfoMenu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(Main.this,
                         "Уласовец Ксения Игоревна 2 курс 8 группа",
-                        "Информация", JOptionPane.INFORMATION_MESSAGE, img );
+                        "Информация", JOptionPane.INFORMATION_MESSAGE, img);
             }
         });
 
@@ -80,68 +81,109 @@ public class Main extends JFrame {
 // Создать новое "действие" по сохранению в текстовый файл
 
         Action saveToTextAction = new AbstractAction("Сохранить в текстовый файл") {
-        public void actionPerformed(ActionEvent event) {
-            if (fileChooser==null) {
+            public void actionPerformed(ActionEvent event) {
+                if (fileChooser == null) {
 // Если экземпляр диалогового окна "Открыть файл" ещё не создан,
 // то создать его
-                fileChooser = new JFileChooser();
+                    fileChooser = new JFileChooser();
 // и инициализировать текущей директорией
-                fileChooser.setCurrentDirectory(new File("."));
-            }
+                    fileChooser.setCurrentDirectory(new File("."));
+                }
 // Показать диалоговое окно
-            if (fileChooser.showSaveDialog(Main.this) ==
-                    JFileChooser.APPROVE_OPTION)
+                if (fileChooser.showSaveDialog(Main.this) ==
+                        JFileChooser.APPROVE_OPTION)
 // Если результат его показа успешный,
 // сохранить данные в текстовый файл
-                saveToTextFile(fileChooser.getSelectedFile());
-        }
-    };
+                    saveToTextFile(fileChooser.getSelectedFile());
+            }
+        };
 // Добавить соответствующий пункт подменю в меню "Файл"
-    saveToTextMenuItem = fileMenu.add(saveToTextAction);
+        saveToTextMenuItem = fileMenu.add(saveToTextAction);
 // По умолчанию пункт меню является недоступным (данных ещѐ нет)
-saveToTextMenuItem.setEnabled(false);
-    // Создать новое "действие" по сохранению в текстовый файл
-    Action saveToGraphicsAction = new AbstractAction("Сохранить данные для построения графика") {
-    public void actionPerformed(ActionEvent event) {
-        if (fileChooser==null) {
-// Если экземпляр диалогового окна
-// "Открыть файл" ещѐ не создан,
-// то создать его
-            fileChooser = new JFileChooser();
+        saveToTextMenuItem.setEnabled(false);
+        // Создать новое "действие" по сохранению в текстовый файл
+
+        Action saveToCSV = new AbstractAction("Сохранить данные CSV"){
+            public void actionPerformed(ActionEvent event)
+            {
+                if (fileChooser == null) {
+
+                    fileChooser = new JFileChooser();
 // и инициализировать текущей директорией
-            fileChooser.setCurrentDirectory(new File("."));
-        }
+                    fileChooser.setCurrentDirectory(new File("."));
+                }
 // Показать диалоговое окно
-        if (fileChooser.showSaveDialog(Main.this) ==
-                JFileChooser.APPROVE_OPTION);
+                if (fileChooser.showSaveDialog(Main.this) ==
+                        JFileChooser.APPROVE_OPTION) ;
 // Если результат его показа успешный,
 // сохранить данные в двоичный файл
-        saveToGraphicsFile(
-                fileChooser.getSelectedFile());
-    }
-};
+                saveToTableCSV(
+                        fileChooser.getSelectedFile());
+            }
+        };
+        saveToGraphicsMenuItem = fileMenu.add(saveToCSV);
+
+        Action saveToGraphicsAction = new AbstractAction("Сохранить данные для построения графика") {
+            public void actionPerformed(ActionEvent event) {
+                if (fileChooser == null) {
+
+                    fileChooser = new JFileChooser();
+// и инициализировать текущей директорией
+                    fileChooser.setCurrentDirectory(new File("."));
+                }
+// Показать диалоговое окно
+                if (fileChooser.showSaveDialog(Main.this) ==
+                        JFileChooser.APPROVE_OPTION) ;
+// Если результат его показа успешный,
+// сохранить данные в двоичный файл
+                saveToGraphicsFile(
+                        fileChooser.getSelectedFile());
+            }
+        };
+
 // Добавить соответствующий пункт подменю в меню "Файл"
-saveToGraphicsMenuItem = fileMenu.add(saveToGraphicsAction);
+        saveToGraphicsMenuItem = fileMenu.add(saveToGraphicsAction);
 // По умолчанию пункт меню является недоступным(данных ещѐ нет)
         saveToGraphicsMenuItem.setEnabled(false);
 // Создать новое действие по поиску значений многочлена
         Action searchValueAction = new AbstractAction("Найти значение многочлена") {
-public void actionPerformed(ActionEvent event) {
+            public void actionPerformed(ActionEvent event) {
 // Запросить пользователя ввести искомую строку
-        String value =
-        JOptionPane.showInputDialog(Main.this, "Введите значение для поиска",
-        "Поиск значения", JOptionPane.QUESTION_MESSAGE);
+                String value =
+                        JOptionPane.showInputDialog(Main.this, "Введите значение для поиска",
+                                "Поиск значения", JOptionPane.QUESTION_MESSAGE);
 // Установить введенное значение в качестве иголки
-        renderer.setNeedle(value);
+                renderer.setNeedle(value);
 // Обновить таблицу
-        getContentPane().repaint();
-        }
+                getContentPane().repaint();
+            }
         };
 // Добавить действие в меню "Таблица"
         searchValueMenuItem = tableMenu.add(searchValueAction);
 // По умолчанию пункт меню является недоступным (данных ещѐ нет)
         searchValueMenuItem.setEnabled(false);
-// Создать область с полями ввода для границ отрезка и шага
+
+
+        Action searchValueDiap = new AbstractAction("Найти диапазон значений многочлена") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String value =
+                        JOptionPane.showInputDialog(Main.this, "Введите диапазон значений для поиска",
+                                "Поиск значения", JOptionPane.QUESTION_MESSAGE);
+
+            renderer.setNeedle(value);
+                getContentPane().repaint();
+            }
+        };
+        searchDiapValueMenuItem = tableMenu.add(searchValueDiap);
+// По умолчанию пункт меню является недоступным (данных ещѐ нет)
+        searchDiapValueMenuItem.setEnabled(false);
+
+
+
+
+
+            // Создать область с полями ввода для границ отрезка и шага
 // Создать подпись для ввода левой границы отрезка
         JLabel labelForFrom = new JLabel("X изменяется на интервале от:");
 // Создать текстовое поле для ввода значения длиной в 10 символов
@@ -234,6 +276,9 @@ public void actionPerformed(ActionEvent ev) {
         saveToTextMenuItem.setEnabled(true);
         saveToGraphicsMenuItem.setEnabled(true);
         searchValueMenuItem.setEnabled(true);
+
+        searchDiapValueMenuItem.setEnabled(true);
+
         } catch (NumberFormatException ex) {
 // В случае ошибки преобразования чисел показать сообщение об ошибке
         JOptionPane.showMessageDialog(Main.this,
@@ -260,6 +305,10 @@ public void actionPerformed(ActionEvent ev) {
         saveToTextMenuItem.setEnabled(false);
         saveToGraphicsMenuItem.setEnabled(false);
         searchValueMenuItem.setEnabled(false);
+
+    searchDiapValueMenuItem.setEnabled(false);
+
+
 // Обновить область содержания главного окна
         getContentPane().validate();
         }
@@ -302,6 +351,22 @@ protected void saveToGraphicsFile(File selectedFile) {
 // так как мы файл создаѐм, а не открываем для чтения
         }
         }
+
+    protected void saveToTableCSV(File selectedFile) {
+        try {
+            PrintStream out = new PrintStream(selectedFile);
+            for (int i = 0; i < data.getRowCount(); i++) {
+                out.println(data.getValueAt(i, 0)
+                        + ", " + data.getValueAt(i, 1)
+                        + ", " + data.getValueAt(i, 2)
+                        + ", " + data.getValueAt(i, 3) + "\n");
+            }
+            out.close();
+        }catch (FileNotFoundException e)
+        {}
+    }
+
+
 protected void saveToTextFile(File selectedFile) {
         try {
 // Создать новый символьный поток вывода, направленный в указанный файл
@@ -332,6 +397,11 @@ protected void saveToTextFile(File selectedFile) {
 // обрабатывать, так как мы файл создаѐм, а не открываем
         }
         }
+
+
+
+
+
 public static void main(String[] args) {
 // Если не задано ни одного аргумента командной строки -
 // Продолжать вычисления невозможно, коэффиценты неизвестны
